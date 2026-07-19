@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anchor Dispatch — Truck Dispatch Services USA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0A0F1E;
+      --navy2:  #111827;
+      --blue:   #1B4F8A;
+      --blue2:  #2563B0;
+      --amber:  #F5A623;
+      --amber2: #FFBE4D;
+      --slate:  #C8D6E5;
+      --muted:  #6B7E96;
+      --white:  #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: var(--amber);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 26px; height: 26px; }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+    .logo-text span { color: var(--amber); }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--slate);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    .nav-cta {
+      background: var(--amber);
+      color: var(--navy) !important;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--amber2) !important; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Road scene */
+    .road-scene {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 320px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .road {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(180deg, #1a2035 0%, #0e1525 100%);
+    }
+
+    .road-line {
+      position: absolute; top: 52px; left: -200px;
+      width: 120px; height: 8px;
+      background: var(--amber);
+      border-radius: 4px;
+      animation: dashMove 1.6s linear infinite;
+    }
+    .road-line:nth-child(2) { animation-delay: -0.53s; }
+    .road-line:nth-child(3) { animation-delay: -1.06s; }
+    .road-line:nth-child(4) { animation-delay: -1.59s; }
+    .road-line:nth-child(5) { animation-delay: -2.12s; }
+    .road-line:nth-child(6) { animation-delay: -2.65s; }
+
+    @keyframes dashMove {
+      from { left: -200px; }
+      to   { left: calc(100vw + 200px); }
+    }
+
+    /* SVG Truck */
+    .truck-wrap {
+      position: absolute;
+      bottom: 118px;
+      left: -320px;
+      animation: truckRide 8s cubic-bezier(0.25,0,0.75,1) 0.6s forwards;
+    }
+    @keyframes truckRide {
+      0%   { left: -320px; opacity: 0; }
+      10%  { opacity: 1; }
+      70%  { left: 55%; }
+      100% { left: 55%; }
+    }
+    .truck-svg { width: 280px; }
+
+    /* Glow horizon */
+    .horizon-glow {
+      position: absolute; bottom: 116px; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(180deg, transparent 0%, rgba(27,79,138,0.25) 100%);
+    }
+
+    /* Stars */
+    .stars {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 70% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 60% 18%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    /* Grid overlay */
+    .grid-overlay {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(27,79,138,0.07) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(27,79,138,0.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 780px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,166,35,0.12);
+      border: 1px solid rgba(245,166,35,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s forwards;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      background: var(--amber);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+    h1 .line-amber { color: var(--amber); }
+    h1 .line-outline {
+      -webkit-text-stroke: 2px var(--white);
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--slate);
+      max-width: 560px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.7s forwards;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--amber);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      padding: 15px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(245,166,35,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--amber2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(245,166,35,0.5);
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 15px 30px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--amber);
+      background: rgba(245,166,35,0.08);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex; flex-wrap: wrap; gap: 40px;
+      padding: 36px 5%;
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-item { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 100px 5%; }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      letter-spacing: 1.5px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .section-sub {
+      color: var(--slate);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 540px;
+    }
+
+    /* ── WHY US ── */
+    #why { background: var(--navy2); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .why-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 36px 30px;
+      transition: transform 0.3s, border-color 0.3s, background 0.3s;
+      cursor: default;
+    }
+    .why-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(245,166,35,0.35);
+      background: rgba(245,166,35,0.05);
+    }
+    .card-icon {
+      width: 52px; height: 52px;
+      background: rgba(245,166,35,0.12);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 22px;
+    }
+    .card-icon svg { width: 28px; height: 28px; color: var(--amber); }
+    .why-card h3 {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    .why-card p {
+      color: var(--slate);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--navy); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      margin-top: 60px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.03);
+      padding: 44px 36px;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .service-card:hover { background: rgba(27,79,138,0.12); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      color: rgba(255,255,255,0.04);
+      position: absolute;
+      top: 16px; right: 24px;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .service-card h3 {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 14px;
+      color: var(--white);
+    }
+    .service-card p {
+      color: var(--slate);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--navy2); }
+    .how-steps {
+      display: flex; flex-direction: column; gap: 0;
+      margin-top: 64px;
+      max-width: 800px;
+      position: relative;
+    }
+    .how-steps::before {
+      content: '';
+      position: absolute; left: 27px; top: 28px; bottom: 28px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--amber) 0%, rgba(245,166,35,0.1) 100%);
+    }
+    .step {
+      display: flex; gap: 28px; align-items: flex-start;
+      padding: 28px 0;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: var(--navy);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .step-body h3 {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .step-body p {
+      color: var(--slate);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    /* ── COVERAGE ── */
+    #coverage { background: var(--navy); }
+    .coverage-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .usa-map-wrap {
+      position: relative;
+    }
+    .usa-map-wrap svg {
+      width: 100%;
+      opacity: 0.85;
+    }
+    .coverage-list {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .cov-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 22px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cov-item:hover {
+      border-color: rgba(245,166,35,0.3);
+      background: rgba(245,166,35,0.04);
+    }
+    .cov-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--amber); flex-shrink: 0;
+    }
+    .cov-text { font-size: 0.9rem; font-weight: 500; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--navy2); }
+    .t-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .t-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 32px 28px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .t-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245,166,35,0.3);
+    }
+    .stars-row { display: flex; gap: 3px; margin-bottom: 18px; }
+    .star { color: var(--amber); font-size: 1rem; }
+    .t-text {
+      color: var(--slate);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      font-style: italic;
+    }
+    .t-author {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .t-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .t-name { font-weight: 600; font-size: 0.9rem; }
+    .t-role { color: var(--muted); font-size: 0.78rem; }
+
+    /* ── CTA STRIP ── */
+    #cta-strip {
+      background: linear-gradient(135deg, var(--blue) 0%, #0d2d5e 100%);
+      padding: 80px 5%;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta-strip::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px,
+        transparent 0, transparent 50%
+      );
+      background-size: 20px 20px;
+    }
+    .cta-strip-inner { position: relative; z-index: 1; }
+    #cta-strip h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    #cta-strip p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+    .cta-actions {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: center;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--navy); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 60px;
+    }
+    .contact-details {
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 18px;
+      padding: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      transition: border-color 0.2s, background 0.2s;
+      text-decoration: none; color: var(--white);
+    }
+    .contact-item:hover {
+      border-color: rgba(245,166,35,0.35);
+      background: rgba(245,166,35,0.05);
+    }
+    .contact-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(245,166,35,0.12);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 24px; height: 24px; color: var(--amber); }
+    .contact-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .contact-value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .contact-form {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 40px 36px;
+    }
+    .contact-form h3 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 28px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--slate);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--amber); }
+    .form-group select option { background: var(--navy2); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070b17;
+      padding: 60px 5% 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 48px;
+    }
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-top: 16px;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-bottom p {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .footer-dot { color: var(--amber); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .coverage-inner,
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .stats-bar { flex-wrap: wrap; gap: 24px; }
+      .footer-top { grid-template-columns: 1fr; }
+      h1 { font-size: 3.2rem; }
+    }
+
+    /* Mobile menu toggle */
+    .menu-btn {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      color: var(--white); padding: 8px;
+    }
+    @media (max-width: 900px) {
+      .menu-btn { display: block; }
+    }
+
+    /* WhatsApp float */
+    .wa-float {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      width: 58px; height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      z-index: 200;
+      text-decoration: none;
+      animation: bounce 2.5s ease infinite;
+      transition: transform 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+    .wa-float svg { width: 30px; height: 30px; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/12094040087" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 18L3 10C3 8.9 3.9 8 5 8L17 8L22 13L22 18" stroke="#0A0F1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="7.5" cy="19.5" r="2.5" stroke="#0A0F1E" stroke-width="2"/>
+        <circle cx="18.5" cy="19.5" r="2.5" stroke="#0A0F1E" stroke-width="2"/>
+        <path d="M10 19.5H16" stroke="#0A0F1E" stroke-width="2"/>
+        <path d="M17 8V13H22" stroke="#0A0F1E" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M3 13H10" stroke="#0A0F1E" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">ANCHOR <span>DISPATCH</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#coverage">Coverage</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://wa.me/12094040087" target="_blank" class="nav-cta">Get Started</a></li>
+  </ul>
+
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="stars"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      USA-Based Truck Dispatch Services
+    </div>
+    <h1>
+      KEEP YOUR<br>
+      <span class="line-amber">WHEELS</span><br>
+      <span class="line-outline">ROLLING</span>
+    </h1>
+    <p class="hero-sub">
+      Anchor Dispatch handles the freight, negotiations, and paperwork — so you focus on the road. Maximizing your revenue, mile by mile, load by load.
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/12094040087" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+      <a href="#services" class="btn-ghost">
+        Explore Services
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Road scene -->
+  <div class="road-scene">
+    <div class="horizon-glow"></div>
+    <div class="road">
+      <div class="road-line"></div>
+      <div class="road-line"></div>
+      <div class="road-line"></div>
+      <div class="road-line"></div>
+      <div class="road-line"></div>
+      <div class="road-line"></div>
+    </div>
+    <div class="truck-wrap">
+      <!-- Detailed truck SVG -->
+      <svg class="truck-svg" viewBox="0 0 280 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Trailer -->
+        <rect x="0" y="15" width="190" height="60" rx="4" fill="#1B2C4A" stroke="#2563B0" stroke-width="1.5"/>
+        <text x="80" y="50" font-family="'Bebas Neue', sans-serif" font-size="14" fill="#F5A623" text-anchor="middle" letter-spacing="2">ANCHOR DISPATCH</text>
+        <!-- Cab -->
+        <rect x="192" y="25" width="75" height="50" rx="6" fill="#1B3A6B" stroke="#2563B0" stroke-width="1.5"/>
+        <!-- Windshield -->
+        <rect x="230" y="30" width="34" height="26" rx="3" fill="#0ea5e9" opacity="0.6"/>
+        <!-- Hood -->
+        <rect x="264" y="45" width="16" height="30" rx="3" fill="#152d55"/>
+        <!-- Exhaust stack -->
+        <rect x="205" y="5" width="5" height="25" rx="2" fill="#2563B0"/>
+        <rect x="213" y="5" width="5" height="25" rx="2" fill="#2563B0"/>
+        <!-- Wheels trailer -->
+        <circle cx="38" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="38" cy="78" r="6" fill="#1a2035"/>
+        <circle cx="72" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="72" cy="78" r="6" fill="#1a2035"/>
+        <circle cx="140" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="140" cy="78" r="6" fill="#1a2035"/>
+        <circle cx="158" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="158" cy="78" r="6" fill="#1a2035"/>
+        <!-- Wheels cab -->
+        <circle cx="220" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="220" cy="78" r="6" fill="#1a2035"/>
+        <circle cx="255" cy="78" r="12" fill="#0e1525" stroke="#4a5568" stroke-width="2"/>
+        <circle cx="255" cy="78" r="6" fill="#1a2035"/>
+        <!-- Headlight -->
+        <rect x="272" y="50" width="8" height="10" rx="2" fill="#fef9c3" opacity="0.9"/>
+        <!-- Light beam -->
+        <polygon points="280,52 310,30 310,68 280,60" fill="rgba(254,249,195,0.07)"/>
+        <!-- Amber stripe -->
+        <rect x="0" y="72" width="190" height="3" rx="1" fill="#F5A623" opacity="0.5"/>
+        <!-- Tail lights -->
+        <rect x="1" y="30" width="6" height="18" rx="2" fill="#ef4444" opacity="0.8"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-num" data-count="500">0+</span>
+    <span class="stat-label">Loads Dispatched Weekly</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-count="48">0</span>
+    <span class="stat-label">States Covered</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">24/7</span>
+    <span class="stat-label">Dispatch Support</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-count="98">0%</span>
+    <span class="stat-label">On-Time Delivery Rate</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">$0</span>
+    <span class="stat-label">Upfront Cost</span>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="reveal">
+    <div class="section-eyebrow">Why Anchor Dispatch</div>
+    <div class="section-title">YOUR LOAD IS OUR<br>MISSION</div>
+    <p class="section-sub">We work exclusively for truck drivers and owner-operators across the USA — never the broker, always the driver.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <h3>Driver-First Approach</h3>
+      <p>We represent you, not the shippers. Every negotiation is focused on getting you the highest rate per mile possible.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3>24/7 Live Dispatch</h3>
+      <p>Our dispatchers are available around the clock, including weekends and holidays — because freight doesn't take days off.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+      </div>
+      <h3>Maximize Revenue</h3>
+      <p>We negotiate aggressively on every load, targeting top-paying lanes and avoiding deadhead miles that cut into your profit.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <h3>Full Paperwork Handled</h3>
+      <p>Rate confirmations, BOLs, carrier packets — we handle the back-office work so you spend zero time on admin headaches.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.66A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.52-1.52a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+      </div>
+      <h3>Dedicated Dispatcher</h3>
+      <p>You get one dedicated dispatcher who learns your preferences, equipment, and home base — no re-explaining every call.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <h3>No Long-Term Contracts</h3>
+      <p>Work with us week to week. We earn your business through results — not by locking you into contracts you can't escape.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-eyebrow">What We Do</div>
+    <div class="section-title">DISPATCH SERVICES<br>BUILT FOR DRIVERS</div>
+    <p class="section-sub">Everything you need to stay loaded and profitable — handled by professionals who know the industry inside and out.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <h3>Load Finding & Booking</h3>
+      <p>We search load boards, contact brokers directly, and negotiate rates to find you the highest-paying freight available for your equipment and lane preferences.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <h3>Rate Negotiation</h3>
+      <p>Our dispatchers know market rates inside out. We push back on low offers and secure rates that keep your business profitable every week.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <h3>Carrier Setup & Compliance</h3>
+      <p>New to the industry? We'll help you get set up with your authority, MC number, and everything you need to run legally and confidently.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <h3>Factoring Assistance</h3>
+      <p>We work with trusted factoring companies to get you paid fast — no waiting 30–60 days for brokers to cut a check.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <h3>Document Management</h3>
+      <p>Rate confirmations, proof of delivery, carrier packets — we manage all documentation and keep your files organized and audit-ready.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <h3>After-Hours Support</h3>
+      <p>Breakdowns, delays, reroutes — when problems hit at 2 AM, we're on the line helping you navigate and keep the load moving.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="reveal">
+    <div class="section-eyebrow">The Process</div>
+    <div class="section-title">FROM SIGN-UP TO<br>FIRST LOAD FAST</div>
+    <p class="section-sub">Getting started with Anchor Dispatch is straightforward. We get you rolling quickly, with zero headaches.</p>
+  </div>
+  <div class="how-steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Contact Us</h3>
+        <p>Reach out via WhatsApp or email. Tell us about your truck type, preferred lanes, and goals. No commitments yet — just a conversation.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Onboarding & Setup</h3>
+        <p>We gather your MC number, insurance, and carrier packet. Our team gets you set up with our preferred brokers and load boards within 24–48 hours.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>We Find Your Load</h3>
+        <p>Your dedicated dispatcher begins sourcing loads immediately, negotiating top rates, and presenting you with confirmed options that match your preferences.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>You Drive. We Handle the Rest.</h3>
+        <p>Once you're rolling, we manage all communication with the broker, track your load, handle any issues that arise, and process all your paperwork.</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Get Paid Fast</h3>
+        <p>Delivery confirmed, documents submitted, invoice sent. With our factoring partners, you can receive payment the same day — or within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section id="coverage">
+  <div class="reveal">
+    <div class="section-eyebrow">Coverage Area</div>
+    <div class="section-title">ALL 48 CONTIGUOUS<br>STATES COVERED</div>
+    <p class="section-sub">Whether you run regional or coast-to-coast, our dispatchers know every major corridor and freight market in the country.</p>
+  </div>
+  <div class="coverage-inner">
+    <div class="usa-map-wrap reveal">
+      <!-- USA outline SVG -->
+      <svg viewBox="0 0 960 593" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1B4F8A;stop-opacity:0.7"/>
+            <stop offset="100%" style="stop-color:#0d2d5e;stop-opacity:0.9"/>
+          </linearGradient>
+        </defs>
+        <!-- Simplified USA shape -->
+        <path d="M 170 50 L 820 50 L 870 100 L 900 200 L 880 300 L 840 400 L 780 450 L 750 480 L 680 490 L 600 510 L 500 520 L 400 510 L 300 500 L 220 470 L 160 430 L 120 380 L 100 280 L 110 180 L 140 100 Z"
+              fill="url(#mapGrad)" stroke="#2563B0" stroke-width="2" opacity="0.85"/>
+        <!-- State dividers (simplified) -->
+        <line x1="350" y1="50" x2="350" y2="380" stroke="#1B4F8A" stroke-width="0.8" opacity="0.5"/>
+        <line x1="500" y1="50" x2="500" y2="430" stroke="#1B4F8A" stroke-width="0.8" opacity="0.5"/>
+        <line x1="650" y1="50" x2="650" y2="420" stroke="#1B4F8A" stroke-width="0.8" opacity="0.5"/>
+        <line x1="110" y1="240" x2="870" y2="240" stroke="#1B4F8A" stroke-width="0.8" opacity="0.5"/>
+        <line x1="110" y1="350" x2="850" y2="350" stroke="#1B4F8A" stroke-width="0.8" opacity="0.5"/>
+        <!-- Route lines -->
+        <path d="M 180 200 Q 350 180 500 220 Q 650 260 820 200" stroke="#F5A623" stroke-width="2" stroke-dasharray="8 4" fill="none" opacity="0.7"/>
+        <path d="M 200 350 Q 400 330 600 380 Q 720 400 800 360" stroke="#F5A623" stroke-width="1.5" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
+        <!-- City dots -->
+        <circle cx="185" cy="195" r="5" fill="#F5A623"/>
+        <circle cx="820" cy="195" r="5" fill="#F5A623"/>
+        <circle cx="500" cy="220" r="6" fill="#F5A623" opacity="0.9"/>
+        <circle cx="640" cy="370" r="5" fill="#F5A623" opacity="0.8"/>
+        <circle cx="240" cy="260" r="4" fill="#F5A623" opacity="0.7"/>
+        <circle cx="750" cy="310" r="4" fill="#F5A623" opacity="0.7"/>
+        <!-- Labels -->
+        <text x="178" y="185" font-size="11" fill="#C8D6E5" font-family="Inter, sans-serif">LA</text>
+        <text x="810" y="185" font-size="11" fill="#C8D6E5" font-family="Inter, sans-serif">NY</text>
+        <text x="487" y="213" font-size="11" fill="#C8D6E5" font-family="Inter, sans-serif">CHI</text>
+        <text x="628" y="363" font-size="11" fill="#C8D6E5" font-family="Inter, sans-serif">DAL</text>
+      </svg>
+    </div>
+    <div class="coverage-list reveal">
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Dry Van — all 48 contiguous states</span>
+      </div>
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Reefer — temperature-sensitive lanes</span>
+      </div>
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Flatbed — OD & specialized freight</span>
+      </div>
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Step Deck — heavy equipment hauls</span>
+      </div>
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Power Only — drop and hook loads</span>
+      </div>
+      <div class="cov-item">
+        <div class="cov-dot"></div>
+        <span class="cov-text">Hot Shot — time-critical LTL freight</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal">
+    <div class="section-eyebrow">Driver Reviews</div>
+    <div class="section-title">WHAT DRIVERS<br>ARE SAYING</div>
+  </div>
+  <div class="t-grid">
+    <div class="t-card reveal">
+      <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="t-text">"Switched to Anchor Dispatch after struggling with two other companies. Night and day difference. My dispatcher actually knows the lanes and fights for my rate every single time. Made 30% more in my first month."</p>
+      <div class="t-author">
+        <div class="t-avatar">MR</div>
+        <div>
+          <div class="t-name">Mike R.</div>
+          <div class="t-role">Owner-Operator · Dry Van · Texas</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="t-text">"I'm always loaded. Before Anchor I was sitting 2-3 days between loads. Now I run 5-6 days a week consistently. These guys are the real deal — responsive 24/7 and always have my back."</p>
+      <div class="t-author">
+        <div class="t-avatar">DL</div>
+        <div>
+          <div class="t-name">David L.</div>
+          <div class="t-role">Owner-Operator · Reefer · California</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="t-text">"As a new authority, I was nervous about finding loads on my own. Anchor got me set up fast and I had my first load within 48 hours. The paperwork help alone is worth every penny of the fee."</p>
+      <div class="t-author">
+        <div class="t-avatar">JK</div>
+        <div>
+          <div class="t-name">James K.</div>
+          <div class="t-role">New Authority · Flatbed · Ohio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section id="cta-strip">
+  <div class="cta-strip-inner">
+    <h2>READY TO MAXIMIZE<br>YOUR REVENUE?</h2>
+    <p>Join hundreds of drivers who trust Anchor Dispatch to keep them loaded and profitable.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/12094040087" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us Now
+      </a>
+      <a href="mailto:admin@anchordispatch.org" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send Us an Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-eyebrow">Get In Touch</div>
+    <div class="section-title">CONTACT<br>ANCHOR DISPATCH</div>
+    <p class="section-sub">Have questions? Ready to get started? Reach out and a dispatcher will respond within the hour.</p>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-details">
+      <a href="https://wa.me/12094040087" target="_blank" class="contact-item reveal">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">WhatsApp / Phone</div>
+          <div class="contact-value">+1 (209) 404-0087</div>
+        </div>
+      </a>
+      <a href="mailto:admin@anchordispatch.org" class="contact-item reveal">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">admin@anchordispatch.org</div>
+        </div>
+      </a>
+      <div class="contact-item reveal" style="cursor:default;">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Availability</div>
+          <div class="contact-value">24 hours · 7 days a week</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3>Send Us a Message</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" placeholder="+1 (xxx) xxx-xxxx" />
+      </div>
+      <div class="form-group">
+        <label>Truck Type</label>
+        <select>
+          <option value="">Select equipment type</option>
+          <option>Dry Van</option>
+          <option>Reefer</option>
+          <option>Flatbed</option>
+          <option>Step Deck</option>
+          <option>Power Only</option>
+          <option>Hot Shot</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your operation, preferred lanes, or any questions..."></textarea>
+      </div>
+      <a href="https://wa.me/12094040087" target="_blank" class="btn-primary" style="width:100%;justify-content:center;">
+        Send Message via WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="logo" style="display:inline-flex; text-decoration:none;">
+        <div class="logo-icon">
+          <svg viewBox="0 0 26 26" fill="none">
+            <path d="M3 18L3 10C3 8.9 3.9 8 5 8L17 8L22 13L22 18" stroke="#0A0F1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7.5" cy="19.5" r="2.5" stroke="#0A0F1E" stroke-width="2"/>
+            <circle cx="18.5" cy="19.5" r="2.5" stroke="#0A0F1E" stroke-width="2"/>
+            <path d="M10 19.5H16" stroke="#0A0F1E" stroke-width="2"/>
+            <path d="M17 8V13H22" stroke="#0A0F1E" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M3 13H10" stroke="#0A0F1E" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="logo-text" style="font-size:1.3rem;">ANCHOR <span>DISPATCH</span></div>
+      </a>
+      <p>Professional truck dispatch services for independent drivers and owner-operators across the United States. We keep you moving and your revenue growing.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Load Finding</a></li>
+        <li><a href="#services">Rate Negotiation</a></li>
+        <li><a href="#services">Carrier Setup</a></li>
+        <li><a href="#services">Document Management</a></li>
+        <li><a href="#services">Factoring Assistance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why">Why Anchor</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#coverage">Coverage</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Anchor Dispatch <span class="footer-dot">·</span> All Rights Reserved</p>
+    <p>admin@anchordispatch.org <span class="footer-dot">·</span> +1 (209) 404-0087</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.style.background = window.scrollY > 50
+      ? 'rgba(10,15,30,0.98)'
+      : 'rgba(10,15,30,0.85)';
+  });
+
+  // Count-up animation
+  const counters = document.querySelectorAll('[data-count]');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.count);
+        const suffix = el.textContent.replace(/[0-9]/g,'').replace('+','').replace('%','');
+        const hasPlus = el.dataset.count && parseInt(el.dataset.count) >= 100;
+        let current = 0;
+        const step = Math.ceil(target / 60);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current + (target >= 100 ? '+' : '%');
+          if (current >= target) clearInterval(timer);
+        }, 24);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => countObserver.observe(el));
+
+  // Form submit → WhatsApp redirect
+  const formBtn = document.querySelector('.contact-form .btn-primary');
+  formBtn && formBtn.addEventListener('click', (e) => {
+    // Already links to WhatsApp; no override needed
+  });
+</script>
+</body>
+</html>
